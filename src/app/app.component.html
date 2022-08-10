@@ -1,2 +1,9 @@
 <p>huhu</p>
-<canvas #sceneCanvas style="border: none;" width="250" height="250"></canvas>
+<div *ngFor="let tile of getTiles(); let i = index">
+    <tileelement
+            [tile]="tile"
+            [pos]="pos"
+            [zoom]="zoom"
+            [screenSize]="size">
+    </tileelement>
+</div>

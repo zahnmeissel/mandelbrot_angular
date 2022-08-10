@@ -9,40 +9,22 @@ import {Point} from './Point';
 })
 export class AppComponent implements AfterViewInit {
   private static MAX_TILES = 2048;
+  private static MIN_ZOOM = 250;
+  private static MAX_ZOOM = 1e16;
 
   title = 'mandelbrot';
-  @ViewChild('sceneCanvas') private canvas!: ElementRef<HTMLCanvasElement>;
-  private gl!: WebGLRenderingContext | undefined;
-  private renderingContext!: RenderingContext | null;
+  tiles: Map<string, Tile> = new Map<string, Tile>();
+
+  public zoom: number = AppComponent.MIN_ZOOM;
+  public pos: Point = new Point(-0.5, 0); // Current position
+  public size: Point = new Point(0, 0); // Display size in pixels
 
   ngAfterViewInit() {
-    if (!this.canvas) {
-      alert('canavs not supplied! cannot bind WebGL context!');
-      return;
-    }
-    this.gl = this.initialiseWebGLContext(this.canvas.nativeElement);
+    this.updateTiles(this.tiles, this.zoom, this.pos, this.size);
   }
 
-  initialiseWebGLContext(canvas: HTMLCanvasElement): WebGLRenderingContext | undefined {
-    // Try to grab the standard context. If it fails, fallback to experimental.
-    this.renderingContext =
-        canvas.getContext('2d');
-
-    // If we don't have a GL context, give up now... only continue if WebGL is available and working...
-    if (!this.gl) {
-      alert('Unable to initialize WebGL. Your browser may not support it.');
-      return;
-    }
-
-    this.setWebGLCanvasDimensions(canvas);
-
-    return this.gl;
-  }
-
-  setWebGLCanvasDimensions(canvas: HTMLCanvasElement): void {
-    // set width and height based on canvas width and height - good practice to use clientWidth and clientHeight
-    this.gl!.canvas.width = canvas.clientWidth;
-    this.gl!.canvas.height = canvas.clientHeight;
+  getTiles(): Array<Tile> {
+    return Array.from(this.tiles.values());
   }
 
   updateTiles(tiles: Map<string, Tile>, zoom: number, pos: Point, size: Point): Map<string, Tile> {

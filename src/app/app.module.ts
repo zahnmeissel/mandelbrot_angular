@@ -3,12 +3,12 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import {Tile} from './Tile';
+import {TileElement} from './tile.element';
 
 @NgModule({
   declarations: [
     AppComponent,
-      Tile
+      TileElement
   ],
   imports: [
     BrowserModule,

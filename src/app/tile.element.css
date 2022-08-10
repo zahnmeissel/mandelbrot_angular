@@ -1,0 +1,8 @@
+.tile {
+    position: absolute;
+    display: none;
+}
+
+.tile.visible {
+    display: block;
+}
